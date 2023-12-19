@@ -180,6 +180,9 @@ export class OrderService {
             $gte: startOfMonth,
             $lte: endOfMonth,
           },
+          status: {
+            $eq: 5
+          }
         },
       },
       {
