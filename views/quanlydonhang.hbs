@@ -289,15 +289,14 @@
     <script src="/js/demo/datatables-demo.js"></script>
     <script>
         const confirmUpdate = (id, status, orderCode, orderStatus) => {
-            const notification = async () => {
-                console.log(orderCode, "orderCode");
-
+            const notification = async (userID, status, orderCode, orderStatus) => {
+                console.log(orderCode, orderStatus, "orderCode");
                 const url = `/notifiCpanel/addNotification`;
                 const option = {
                     method: 'Post',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        _idUser: id,
+                        _idUser: userID,
                         title: `Cập nhật thông tin đơn hàng ${orderCode}`,
                         content: `Cập nhật đơn hàng : ${orderStatus}`,
                     })
@@ -333,7 +332,7 @@
 
                 const res = await fetchAPI(url, option);
                 if (res.result) {
-                    notification(id, status, orderCode, orderStatus);
+                    notification(res.userID, status, orderCode, orderStatus);
                     swal("Thành công!", ``, "success");
                     setTimeout(() => {
                         window.location.reload();
@@ -361,7 +360,7 @@
             }).then((selectedStatus) => {
                 if (selectedStatus) {
                     const mappedStatus = statusMap[selectedStatus];
-                    updateStatus(id, mappedStatus);
+                    updateStatus(id, mappedStatus, orderCode);
                 }
             });
         }

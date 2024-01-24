@@ -1,4 +1,4 @@
-import { Injectable , Logger  } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { NotifiGetResponseDTO } from "./dto/notifi_get_response";
@@ -15,15 +15,16 @@ export class NotificationService {
 
     async addNotification(requestDTO: NotificationInsertDTO): Promise<NotifiGetResponseDTO> {
         try {
-            const {_idUser , title, content } = requestDTO;
+            console.log(requestDTO);
+            const { _idUser, title, content } = requestDTO;
             const newNotifi = new this.notifiModel({
                 _idUser,
                 title,
                 content,
             });
-            
+
             await newNotifi.save()
-            
+
             return {
                 status: true,
                 message: 'Notification added successfully',
@@ -39,7 +40,7 @@ export class NotificationService {
 
     async getAllNotification(_idUser): Promise<NotifiGetResponseDTO | any> {
         try {
-            const notifi = await this.notifiModel.find({_idUser});
+            const notifi = await this.notifiModel.find({ _idUser });
             this.logger.log('Get all notifications successfully');
             return notifi;
         } catch (error) {

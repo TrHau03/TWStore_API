@@ -41,7 +41,8 @@ export class OrderCpanelController {
           order: item,
           statusOrder: ContentStatus.find((status: any) => status.key == item.status)
         }
-      })
+      });
+      console.log(orders);
       return { orders };
     } catch (error) { }
   }
@@ -60,6 +61,7 @@ export class OrderCpanelController {
   async updateStatusOrder(@Param('id') id: string, @Body() body: any, @Res() res: Response) {
     try {
       const order = await this.orderService.updateStatusOrder({ id, body });
+      
       return res.json({ result: true, userID: order.userID, statusOrder: order.statusOrder });
     } catch (error) {
     }
